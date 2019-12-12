@@ -1,10 +1,10 @@
-from . import session
+from . import session, handle_request
+
 
 class TV(object):
     def __init__(self, id):
         self.id = id
 
     def info(self):
-        path = 'https://api.themoviedb.org/3/tv/{}'.format(self.id)
-        response = session.get(path)
-        return response.json()
+        url = 'https://api.themoviedb.org/3/tv/{}'.format(self.id)
+        return handle_request(url=url, method='get')
