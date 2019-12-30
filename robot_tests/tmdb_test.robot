@@ -8,6 +8,7 @@ ${tv_show_id}       1396
 # how to break the line when so many lists' elements?
 @{tv_show_fields}   id  origin_country  poster_path     name    overview    popularity  backdrop_path   first_air_date  vote_count  vote_average
 ${movie_name}       Forrest Gump
+${non_existing_movie_name}       Non existing movie
 @{movie_fields}     popularity  vote_count  video   poster_path     id  adult   backdrop_path   original_language   original_title  genre_ids   title   vote_average    overview    release_date
 
 *** Keywords ***
@@ -22,7 +23,16 @@ verify movies search response
     is dict         ${response['results'][0]}
     list should contain sub list     ${response['results'][0]}  ${movie_fields}
 
+verify movie is found
+    [Arguments]          ${movie_name}
+    ${response}          search movie                   ${movie_name}
+    should not be equal as integers  ${response['total_results']}    0
+    [Return]             ${response}
 
+verify movie is not found
+    [Arguments]          ${movie_name}
+    ${response}          search movie                     ${movie_name}
+    should be equal as integers    ${response['total_results']}   0
 
 *** Test Cases ***
 TMDB check response of getting specific movie's info
@@ -38,8 +48,11 @@ TMDB check response of popular tv shows
 
 
 TMBD check response of movies search
-    ${response}     search movie    ${movie_name}
+    ${response}    verify movie is found           ${movie_name}
     verify movies search response   ${response}
 
+
+TMBD check search for non-existing movie
+    verify movie is not found      ${non_existing_movie_name}
 
 
