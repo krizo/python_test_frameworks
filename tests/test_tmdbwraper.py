@@ -1,5 +1,6 @@
 from pytest import fixture
-from tmdbwrapper import TV, my_vcr
+from tbdbclient import TBDBclient
+from tmdbwrapper import my_vcr
 
 
 @fixture
@@ -10,15 +11,20 @@ def tv_keys():
             'first_air_date', 'vote_count', 'vote_average']
 
 
-@my_vcr.use_cassette('tests/vcr_cassettes/tv-info.yml',  filter_query_parameters=['api_key'])
-def test_tv_info(tv_keys):
+@fixture
+def movie_id():
+    return 1396
+
+
+@my_vcr.use_cassette('tests/vcr_cassettes/tv-info.yml', filter_query_parameters=['api_key'])
+def test_tv_info(tv_keys, movie_id):
     """Tests an API call to get a TV show's info"""
 
-    tv_instance = TV(1396)
-    response = tv_instance.info()
+    tmdb_client = TBDBclient()
+    response = tmdb_client.info(id=movie_id)
 
     assert isinstance(response, dict)
-    assert response['id'] == 1396
+    assert response['id'] == movie_id
     assert set(tv_keys).issubset(response.keys())
 
 
@@ -26,7 +32,8 @@ def test_tv_info(tv_keys):
 def test_tv_popular(tv_keys):
     """Tests an API call to get a popular tv shows"""
 
-    response = TV.popular()
+    tmdb_client = TBDBclient()
+    response = tmdb_client.popular()
 
     assert isinstance(response, dict)
     assert isinstance(response['results'], list)

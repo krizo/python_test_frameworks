@@ -1,1 +1,1 @@
-from tmdbwrapper.tv import TV
+from tmdbwrapper.tbdbclient import TBDBclient
