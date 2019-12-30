@@ -22,9 +22,9 @@ class TBDBclient(object):
         self.session.params = {'api_key': self.api_key}
 
     @retryer
-    def handle_request(self, url, method, data=None):
+    def handle_request(self, url, method, data=None, params=None):
         if method.lower() == 'get':
-            return self.session.get(url).json()
+            return self.session.get(url, params=params).json()
         elif method.lower == 'post':
             return self.session.post(url, data).json()
         else:
@@ -37,3 +37,7 @@ class TBDBclient(object):
     def popular(self):
         url = 'https://api.themoviedb.org/3/tv/popular'
         return self.handle_request(url=url, method='get')
+
+    def search_movie(self, movie_name):
+        url = 'https://api.themoviedb.org/3/search/movie'
+        return self.handle_request(url=url, method='get', params={"query": movie_name})
