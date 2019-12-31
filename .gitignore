@@ -14,5 +14,6 @@ venv.bak/
 *.xml
 *.log
 *.html
+result/
 
 

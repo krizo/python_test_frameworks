@@ -2,12 +2,13 @@
 Library  tmdb_keywords.py
 Library  utils_keywords.py
 Library  Collections
+Library  Collections
 
 *** Variables ***
 ${tv_show_id}       1396
 # how to break the line when so many lists' elements?
 @{tv_show_fields}   id  origin_country  poster_path     name    overview    popularity  backdrop_path   first_air_date  vote_count  vote_average
-${movie_name}       Forrest Gump
+@{movies}           "Forrest Gump", "The Lord of the Rings: The Fellowship of the Ring"
 ${non_existing_movie_name}       Non existing movie
 @{movie_fields}     popularity  vote_count  video   poster_path     id  adult   backdrop_path   original_language   original_title  genre_ids   title   vote_average    overview    release_date
 
@@ -48,9 +49,10 @@ TMDB check response of popular tv shows
 
 
 TMBD check response of movies search
-    ${response}    verify movie is found           ${movie_name}
-    verify movies search response   ${response}
-
+    FOR     ${movie_name}   IN  {movies}
+         ${response}    verify movie is found   ${movie_name}
+         verify movies search response   ${response}
+    END
 
 TMBD check search for non-existing movie
     verify movie is not found      ${non_existing_movie_name}
