@@ -2,8 +2,6 @@
 Library  tmdb_keywords.py
 Library  utils_keywords.py
 Library  Collections
-Library  Collections
-
 *** Variables ***
 ${tv_show_id}       1396
 # how to break the line when so many lists' elements?
@@ -49,9 +47,9 @@ TMDB check response of popular tv shows
 
 
 TMBD check response of movies search
-    FOR     ${movie_name}   IN  {movies}
-         ${response}    verify movie is found   ${movie_name}
-         verify movies search response   ${response}
+    :FOR     ${movie_name}   IN  {movies}
+            ${response}    verify movie is found   ${movie_name}
+            verify movies search response   ${response}
     END
 
 TMBD check search for non-existing movie

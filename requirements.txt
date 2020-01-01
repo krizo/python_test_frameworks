@@ -1,3 +1,4 @@
+selenium
 allure-python-commons==2.8.6
 allure-robotframework==2.8.6
 attrs==19.3.0
