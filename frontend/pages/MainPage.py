@@ -1,12 +1,17 @@
-from frontend.pages.BasePage import BasePage
-from frontend.web import Web
+from frontend.page_object import PageObject
+# from frontend.pages.BasePage import BasePage
 
 
-class MainPage(BasePage):
-    url = 'https://www.themoviedb.org/'
+class MainPage(PageObject):
+    root_uri = 'https://www.themoviedb.org/'
+    # discover = element(tag_name='href')
+
+    def test(self):
+        return self.driver.get_element_by_css('.logo')
+
 
 
 # class TopMenu(MainPage):
-#         self.discover = self.driver.get_element_by_css({"name": "query")
+
 
 
